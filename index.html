@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>نموذج التقرير اليومي للموقع</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1e3a8a;
+    --primary-light: #3b82f6;
+    --accent: #10b981;
+    --bg: #f1f5f9;
+    --card: #ffffff;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --border: #e2e8f0;
+    --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+    min-height: 100vh;
+    padding: 10px;
+    color: var(--text);
+    font-size: 14px;
+  }
+
+  .container {
+    max-width: 480px;
+    margin: 0 auto;
+    background: var(--card);
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+
+  .header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+    padding: 18px 15px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+  }
+
+  .header h1 {
+    font-size: 1.1rem;
+    font-weight: 900;
+    margin-bottom: 3px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header p {
+    font-size: 0.75rem;
+    opacity: 0.9;
+    position: relative;
+    z-index: 1;
+  }
+
+  .form-body { padding: 12px; }
+
+  .section {
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-right: 3px solid var(--primary-light);
+    box-shadow: var(--shadow);
+  }
+
+  .section-title {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .section-title::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--primary-light);
+    border-radius: 50%;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .row.three { grid-template-columns: 1fr 1fr 1fr; }
+
+  .field { display: flex; flex-direction: column; }
+
+  .field label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 4px;
+  }
+
+  .field input, .field select, .field textarea {
+    padding: 8px 10px;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-family: 'Cairo', sans-serif;
+    transition: all 0.2s;
+    background: #fff;
+  }
+
+  .field input:focus, .field select:focus, .field textarea:focus {
+    outline: none;
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+  }
+
+  .field textarea {
+    min-height: 100px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  .site-name-field {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 2px solid var(--primary-light);
+  }
+
+  .site-name-field label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 5px;
+    display: block;
+  }
+
+  .site-name-field input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid var(--primary-light);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--primary);
+    background: #fff;
+  }
+
+  .site-name-field input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(30,58,138,0.15);
+  }
+
+  .workers-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .worker-item {
+    background: #fff;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+
+  .worker-item label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--text-light);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .worker-item input {
+    width: 100%;
+    padding: 6px;
+    border: 1.5px solid var(--border);
+    border-radius: 5px;
+    font-size: 0.9rem;
+    text-align: center;
+    font-weight: 700;
+    color: var(--primary);
+  }
+
+  .worker-item input:focus {
+    outline: none;
+    border-color: var(--primary-light);
+  }
+
+  .materials-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .material-item {
+    background: #fff;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+
+  .material-item label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--text-light);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .material-item input {
+    width: 100%;
+    padding: 6px;
+    border: 1.5px solid var(--border);
+    border-radius: 5px;
+    font-size: 0.8rem;
+  }
+
+  .material-item input:focus {
+    outline: none;
+    border-color: var(--primary-light);
+  }
+
+  .tasks-list { display: flex; flex-direction: column; gap: 6px; }
+
+  .task-item {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    background: #fff;
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+
+  .task-number {
+    background: var(--primary-light);
+    color: #fff;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .task-item input {
+    flex: 1;
+    padding: 6px 8px;
+    border: 1.5px solid var(--border);
+    border-radius: 5px;
+    font-size: 0.8rem;
+    font-family: 'Cairo', sans-serif;
+  }
+
+  .task-item input:focus {
+    outline: none;
+    border-color: var(--primary-light);
+  }
+
+  .btn-remove {
+    background: #ef4444;
+    color: #fff;
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-add {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+    width: 100%;
+    font-family: 'Cairo', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .btn-add:hover { background: #059669; transform: translateY(-1px); }
+
+  .btn-submit {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    color: #fff;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    width: 100%;
+    font-family: 'Cairo', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 8px 20px rgba(37,211,102,0.3);
+    transition: all 0.3s;
+    margin-top: 10px;
+  }
+
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(37,211,102,0.4); }
+  .btn-submit:active { transform: translateY(0); }
+
+  .btn-submit svg { width: 22px; height: 22px; }
+
+  .footer {
+    text-align: center;
+    padding: 12px;
+    color: #94a3b8;
+    font-size: 0.75rem;
+  }
+
+  .footer .name {
+    color: var(--primary-light);
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-top: 4px;
+  }
+
+  @media (max-width: 360px) {
+    .workers-grid, .materials-grid { grid-template-columns: 1fr; }
+    .row { grid-template-columns: 1fr; }
+    .header h1 { font-size: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>📋 نموذج التقرير اليومي للموقع</h1>
+    <p>Daily Site Log</p>
+  </div>
+
+  <div class="form-body">
+
+    <!-- اسم المشروع -->
+    <div class="site-name-field">
+      <label>🏗️ اسم المشروع / الموقع</label>
+      <input type="text" id="site" placeholder="اكتب اسم المشروع هنا...">
+    </div>
+
+    <!-- البيانات الأساسية -->
+    <div class="section">
+      <div class="section-title">البيانات الأساسية</div>
+      <div class="row three">
+        <div class="field">
+          <label>التاريخ</label>
+          <input type="date" id="date">
+        </div>
+        <div class="field">
+          <label>اليوم</label>
+          <select id="day">
+            <option>السبت</option><option>الأحد</option><option>الإثنين</option>
+            <option>الثلاثاء</option><option>الأربعاء</option><option>الخميس</option><option>الجمعة</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- العمالة والصنايعية -->
+    <div class="section">
+      <div class="section-title">بيان العمالة والصنايعية</div>
+      <div class="workers-grid">
+        <div class="worker-item"><label>🔨 نجار/طوب</label><input type="number" id="w_carpenter" min="0" value="0"></div>
+        <div class="worker-item"><label> سباك</label><input type="number" id="w_plumber" min="0" value="0"></div>
+        <div class="worker-item"><label>⚡ كهربائي</label><input type="number" id="w_electrician" min="0" value="0"></div>
+        <div class="worker-item"><label>🎨 مبيض محارة</label><input type="number" id="w_plasterer" min="0" value="0"></div>
+        <div class="worker-item"><label>👷 عمالة مساعدة</label><input type="number" id="w_helper" min="0" value="0"></div>
+        <div class="worker-item"><label>🔷 سيراميك</label><input type="number" id="w_ceramic" min="0" value="0"></div>
+        <div class="worker-item"><label> جبس</label><input type="number" id="w_gypsum" min="0" value="0"></div>
+        <div class="worker-item"><label>💧 عزل</label><input type="number" id="w_insulation" min="0" value="0"></div>
+        <div class="worker-item"><label>🚪 أبواب</label><input type="number" id="w_doors" min="0" value="0"></div>
+        <div class="worker-item"><label>️ نقاش</label><input type="number" id="w_painter" min="0" value="0"></div>
+      </div>
+    </div>
+
+    <!-- الأعمال المنفذة -->
+    <div class="section">
+      <div class="section-title">الأعمال المنفذة اليوم</div>
+      <div class="tasks-list" id="tasksList">
+        <div class="task-item">
+          <div class="task-number">1</div>
+          <input type="text" placeholder="اكتب العمل المنفذ...">
+        </div>
+        <div class="task-item">
+          <div class="task-number">2</div>
+          <input type="text" placeholder="اكتب العمل المنفذ...">
+        </div>
+      </div>
+      <button class="btn-add" onclick="addTask()">➕ إضافة بند جديد</button>
+    </div>
+
+    <!-- الخامات والمواد -->
+    <div class="section">
+      <div class="section-title">الخامات والمواد الواردة</div>
+      <div class="materials-grid">
+        <div class="material-item"><label>️ أسمنت (طن)</label><input type="text" id="m_cement" placeholder="الكمية"></div>
+        <div class="material-item"><label>⏳ رمل (م³)</label><input type="text" id="m_sand" placeholder="الكمية"></div>
+        <div class="material-item"><label> طوب (ألف)</label><input type="text" id="m_brick" placeholder="الكمية"></div>
+        <div class="material-item"><label>⚡ سباكة/كهرباء</label><input type="text" id="m_elec" placeholder="الوصف"></div>
+        <div class="material-item"><label> خامات دهانات</label><input type="text" id="m_paint" placeholder="النوع والكمية"></div>
+      </div>
+    </div>
+
+    <!-- الملاحظات واحتياجات الغد -->
+    <div class="section">
+      <div class="section-title">الملاحظات واحتياجات الغد</div>
+      <div class="field">
+        <textarea id="notes" placeholder="اكتب الملاحظات والعوائق واحتياجات الغد..."></textarea>
+      </div>
+    </div>
+
+    <!-- زر الإرسال -->
+    <button class="btn-submit" onclick="sendWhatsApp()">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      إرسال التقرير عبر واتساب
+    </button>
+
+  </div>
+
+  <div class="footer">
+    © 2026 - نظام إدارة مواقع البناء
+    <div class="name"> علاء عامر</div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('date').valueAsDate = new Date();
+
+  let taskCount = 2;
+
+  function addTask() {
+    taskCount++;
+    const list = document.getElementById('tasksList');
+    const div = document.createElement('div');
+    div.className = 'task-item';
+    div.innerHTML = `
+      <div class="task-number">${taskCount}</div>
+      <input type="text" placeholder="اكتب العمل المنفذ...">
+      <button class="btn-remove" onclick="removeTask(this)">✕</button>
+    `;
+    list.appendChild(div);
+  }
+
+  function removeTask(btn) {
+    btn.parentElement.remove();
+    renumberTasks();
+  }
+
+  function renumberTasks() {
+    const items = document.querySelectorAll('.task-item');
+    items.forEach((item, i) => {
+      item.querySelector('.task-number').textContent = i + 1;
+    });
+    taskCount = items.length;
+  }
+
+  function sendWhatsApp() {
+    const date = document.getElementById('date').value;
+    const day = document.getElementById('day').value;
+    const site = document.getElementById('site').value.trim();
+
+    if (!site) {
+      alert('⚠️ برجاء كتابة اسم المشروع أولاً');
+      document.getElementById('site').focus();
+      return;
+    }
+
+    const workers = {
+      'نجار/طوب': document.getElementById('w_carpenter').value,
+      'سباك': document.getElementById('w_plumber').value,
+      'كهربائي': document.getElementById('w_electrician').value,
+      'مبيض محارة': document.getElementById('w_plasterer').value,
+      'عمالة مساعدة': document.getElementById('w_helper').value,
+      'صنايعي سيراميك': document.getElementById('w_ceramic').value,
+      'صنايعي جبس': document.getElementById('w_gypsum').value,
+      'صنايعي عزل': document.getElementById('w_insulation').value,
+      'صنايعي أبواب': document.getElementById('w_doors').value,
+      'نقاش': document.getElementById('w_painter').value
+    };
+
+    const materials = {
+      'أسمنت (طن)': document.getElementById('m_cement').value,
+      'رمل (م³)': document.getElementById('m_sand').value,
+      'طوب (ألف)': document.getElementById('m_brick').value,
+      'خامات سباكة/كهرباء': document.getElementById('m_elec').value,
+      'خامات دهانات': document.getElementById('m_paint').value
+    };
+
+    const tasks = Array.from(document.querySelectorAll('#tasksList input'))
+      .map(i => i.value.trim()).filter(v => v);
+
+    const notes = document.getElementById('notes').value.trim();
+
+    let msg = ` *التقرير اليومي للموقع*\n\n`;
+    msg += `️ *المشروع:* ${site}\n`;
+    msg += `📅 *التاريخ:* ${date}\n`;
+    msg += `🗓️ *اليوم:* ${day}\n\n`;
+
+    msg += `👷 *العمالة والصنايعية:*\n`;
+    let hasWorkers = false;
+    for (let [k, v] of Object.entries(workers)) {
+      if (v && v != 0) {
+        msg += `• ${k}: ${v}\n`;
+        hasWorkers = true;
+      }
+    }
+    if (!hasWorkers) msg += 'لا يوجد\n';
+    msg += `\n`;
+
+    msg += `✅ *الأعمال المنفذة اليوم:*\n`;
+    if (tasks.length > 0) {
+      tasks.forEach((t, i) => msg += `${i+1}. ${t}\n`);
+    } else {
+      msg += 'لا يوجد\n';
+    }
+    msg += `\n`;
+
+    msg += `📦 *الخامات الواردة:*\n`;
+    let hasMaterials = false;
+    for (let [k, v] of Object.entries(materials)) {
+      if (v) {
+        msg += `• ${k}: ${v}\n`;
+        hasMaterials = true;
+      }
+    }
+    if (!hasMaterials) msg += 'لا يوجد\n';
+    msg += `\n`;
+
+    if (notes) {
+      msg += `📝 *الملاحظات واحتياجات الغد:*\n${notes}\n`;
+    }
+
+    const phone = '201000252729';
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+  }
+</script>
+
+</body>
+</html>
